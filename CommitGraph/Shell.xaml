@@ -7,6 +7,8 @@
                       Title="CommitGraph"
                       Width="640"
                       Height="480"
+                      MinWidth="640"
+                      MinHeight="480"
                       GlowBrush="{DynamicResource AccentColorBrush}"
                       ResizeMode="CanResizeWithGrip"
                       WindowStartupLocation="CenterScreen"
@@ -26,4 +28,28 @@
             </MenuItem>
         </Menu>
     </StackPanel>
+    <controls:MetroWindow.RightWindowCommands>
+        <controls:WindowCommands>
+            <Button Content="Clone" />
+            <Button Content="Discover" />
+            <Button Content="Init" />
+        </controls:WindowCommands>
+    </controls:MetroWindow.RightWindowCommands>
+    <controls:MetroWindow.Flyouts>
+        <controls:FlyoutsControl>
+            <controls:Flyout Width="320"
+                             Header="Clone Repository"
+                             IsOpen="True"
+                             Position="Right">
+                <StackPanel Margin="5">
+                    <Label>Remote URL</Label>
+                    <TextBox />
+                    <Label>Working Directory</Label>
+                    <TextBox />
+                    <Label />
+                    <Button Click="ButtonBase_OnClick" />
+                </StackPanel>
+            </controls:Flyout>
+        </controls:FlyoutsControl>
+    </controls:MetroWindow.Flyouts>
 </controls:MetroWindow>
