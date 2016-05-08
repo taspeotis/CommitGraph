@@ -16,7 +16,7 @@ namespace CommitGraph.Services
         {
             var result =
                 await
-                    ((MetroWindow) Application.Current.MainWindow).ShowLoginAsync("Credentials", "Enter your creds for ",
+                    ((MetroWindow) System.Windows.Application.Current.MainWindow).ShowLoginAsync("Credentials", "Enter your creds for ",
                         new LoginDialogSettings {InitialUsername = userName});
 
             if (result != null)

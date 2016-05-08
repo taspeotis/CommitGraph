@@ -4,6 +4,7 @@
                       xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
                       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:regions="http://prismlibrary.com/"
                       Title="CommitGraph"
                       Width="640"
                       Height="480"
@@ -29,11 +30,7 @@
         </Menu>
     </StackPanel>
     <controls:MetroWindow.RightWindowCommands>
-        <controls:WindowCommands>
-            <Button Content="Clone" />
-            <Button Content="Discover" />
-            <Button Content="Init" />
-        </controls:WindowCommands>
+        <controls:WindowCommands regions:RegionManager.RegionName="RightWindowCommands" />
     </controls:MetroWindow.RightWindowCommands>
     <controls:MetroWindow.Flyouts>
         <controls:FlyoutsControl>
