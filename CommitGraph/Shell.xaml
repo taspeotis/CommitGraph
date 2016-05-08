@@ -27,6 +27,9 @@
                 <Separator />
                 <MenuItem Command="ApplicationCommands.SelectAll" />
             </MenuItem>
+            <MenuItem Header="_Tools">
+                <MenuItem Header="_Options" />
+            </MenuItem>
         </Menu>
     </StackPanel>
     <controls:MetroWindow.RightWindowCommands>
@@ -44,7 +47,7 @@
                     <Label>Working Directory</Label>
                     <TextBox />
                     <Label />
-                    <Button Click="ButtonBase_OnClick" />
+                    <Button Content="Clone" />
                 </StackPanel>
             </controls:Flyout>
         </controls:FlyoutsControl>

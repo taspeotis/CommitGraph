@@ -1,5 +1,8 @@
 ﻿using System.ComponentModel.Composition.Hosting;
 using System.Windows;
+using CommitGraph.Infrastructure;
+using CommitGraph.Properties;
+using HockeyApp;
 using Microsoft.Practices.ServiceLocation;
 using Prism.Mef;
 
@@ -12,6 +15,29 @@ namespace CommitGraph
     {
         public Application()
         {
+            Startup += async delegate
+            {
+                if (Settings.Default.DisableTelemetry)
+                    return;
+
+                var hockeyClient = HockeyClient.Current;
+
+                hockeyClient.Configure(Constants.HockeyAppId);
+
+                try
+                {
+                    await hockeyClient.SendCrashesAsync();
+
+                    // It's not clear that "shutdownActions" is ever called...
+                    // https://github.com/bitstadium/HockeySDK-Windows/issues/39
+                    await hockeyClient.CheckForUpdatesAsync(true, () => true);
+                }
+                catch
+                {
+                    // https://github.com/bitstadium/HockeySDK-Windows/issues/9
+                }
+            };
+
             Startup += delegate { new ApplicationBootstrapper().Run(); };
         }
 
