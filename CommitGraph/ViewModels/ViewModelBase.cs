@@ -2,7 +2,7 @@
 
 namespace CommitGraph.ViewModels
 {
-    internal abstract class ViewModelBase : BindableBase
+    public abstract class ViewModelBase : BindableBase
     {
     }
 }

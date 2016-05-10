@@ -3,19 +3,30 @@
                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                       xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
                       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:infrastructure="clr-namespace:CommitGraph.Infrastructure"
                       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                       xmlns:regions="http://prismlibrary.com/"
+                      xmlns:viewModels="clr-namespace:CommitGraph.ViewModels"
                       Title="CommitGraph"
-                      Width="640"
-                      Height="480"
+                      Width="800"
+                      Height="600"
                       MinWidth="640"
                       MinHeight="480"
                       GlowBrush="{DynamicResource AccentColorBrush}"
                       ResizeMode="CanResizeWithGrip"
                       WindowStartupLocation="CenterScreen"
                       mc:Ignorable="d">
-    <StackPanel Orientation="Vertical">
-        <Menu IsMainMenu="True">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Menu Grid.ColumnSpan="2" IsMainMenu="True">
             <MenuItem Header="_Edit">
                 <MenuItem Command="ApplicationCommands.Undo" />
                 <MenuItem Command="ApplicationCommands.Redo" />
@@ -30,26 +41,30 @@
             <MenuItem Header="_Tools">
                 <MenuItem Header="_Options" />
             </MenuItem>
+            <MenuItem Header="_Help">
+                <MenuItem Header="_About" />
+            </MenuItem>
         </Menu>
-    </StackPanel>
+        <DockPanel Grid.Row="1"
+                   Grid.Column="0"
+                   LastChildFill="false">
+            <!--  We don't need Commit or Add here, that can be done in the tab  -->
+            <Button>Pull</Button>
+            <Button>Fetch</Button>
+            <Button>Push</Button>
+        </DockPanel>
+    </Grid>
     <controls:MetroWindow.RightWindowCommands>
-        <controls:WindowCommands regions:RegionManager.RegionName="RightWindowCommands" />
+        <controls:WindowCommands regions:RegionManager.RegionName="{x:Static infrastructure:Constants.RightWindowCommandsRegionName}" />
     </controls:MetroWindow.RightWindowCommands>
     <controls:MetroWindow.Flyouts>
-        <controls:FlyoutsControl>
-            <controls:Flyout Width="320"
-                             Header="Clone Repository"
-                             IsOpen="True"
-                             Position="Right">
-                <StackPanel Margin="5">
-                    <Label>Remote URL</Label>
-                    <TextBox />
-                    <Label>Working Directory</Label>
-                    <TextBox />
-                    <Label />
-                    <Button Content="Clone" />
-                </StackPanel>
-            </controls:Flyout>
+        <controls:FlyoutsControl d:DataContext="{d:DesignInstance viewModels:FlyoutViewModelBase}" regions:RegionManager.RegionName="{x:Static infrastructure:Constants.FlyoutControlsRegionName}">
+            <controls:FlyoutsControl.ItemContainerStyle>
+                <Style TargetType="{x:Type controls:Flyout}">
+                    <Setter Property="Header" Value="{Binding Header, Mode=OneWay}" />
+                    <Setter Property="IsOpen" Value="{Binding IsOpen, Mode=OneWay}" />
+                </Style>
+            </controls:FlyoutsControl.ItemContainerStyle>
         </controls:FlyoutsControl>
     </controls:MetroWindow.Flyouts>
 </controls:MetroWindow>

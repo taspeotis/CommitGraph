@@ -1,10 +1,14 @@
-﻿using System.ComponentModel.Composition.Hosting;
+﻿using System.Collections.Specialized;
+using System.ComponentModel.Composition;
+using System.ComponentModel.Composition.Hosting;
 using System.Windows;
 using CommitGraph.Infrastructure;
 using CommitGraph.Properties;
 using HockeyApp;
+using MahApps.Metro.Controls;
 using Microsoft.Practices.ServiceLocation;
 using Prism.Mef;
+using Prism.Regions;
 
 namespace CommitGraph
 {
@@ -54,6 +58,16 @@ namespace CommitGraph
                 AggregateCatalog.Catalogs.Add(applicationCatalog);
             }
 
+            protected override RegionAdapterMappings ConfigureRegionAdapterMappings()
+            {
+                var regionAdapterMappings = base.ConfigureRegionAdapterMappings();
+
+                regionAdapterMappings.RegisterMapping(typeof(FlyoutsControl),
+                    ServiceLocator.Current.GetInstance<FlyoutsControlRegionAdapter>());
+
+                return regionAdapterMappings;
+            }
+
             protected override DependencyObject CreateShell()
             {
                 return ServiceLocator.Current.GetInstance<Shell>();
@@ -64,6 +78,39 @@ namespace CommitGraph
                 base.InitializeShell();
 
                 ((UIElement) Shell).Visibility = Visibility.Visible;
+            }
+
+            [Export]
+            private sealed class FlyoutsControlRegionAdapter : RegionAdapterBase<FlyoutsControl>
+            {
+                [ImportingConstructor]
+                public FlyoutsControlRegionAdapter(IRegionBehaviorFactory regionBehaviorFactory)
+                    : base(regionBehaviorFactory)
+                {
+                }
+
+                protected override void Adapt(IRegion region, FlyoutsControl flyoutsControl)
+                {
+                    region.ActiveViews.CollectionChanged += (_, eventArgs) =>
+                    {
+                        if (eventArgs.Action != NotifyCollectionChangedAction.Add) return;
+
+                        foreach (FrameworkElement frameworkElement in eventArgs.NewItems)
+                        {
+                            flyoutsControl.Items.Add(new Flyout
+                            {
+                                Content = frameworkElement,
+                                DataContext = frameworkElement.DataContext,
+                                Position = Position.Right
+                            });
+                        }
+                    };
+                }
+
+                protected override IRegion CreateRegion()
+                {
+                    return new AllActiveRegion();
+                }
             }
         }
     }

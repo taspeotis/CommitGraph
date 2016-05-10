@@ -1,6 +1,11 @@
 ﻿using System.ComponentModel.Composition;
+using System.Windows;
 using System.Windows.Controls;
 using CommitGraph.Infrastructure;
+using CommitGraph.Modules.Repository.ViewModels;
+using CommitGraph.Modules.Repository.Views;
+using CommitGraph.ViewModels;
+using Microsoft.Practices.ServiceLocation;
 using Prism.Mef.Modularity;
 using Prism.Modularity;
 using Prism.Regions;
@@ -20,7 +25,21 @@ namespace CommitGraph.Modules.Repository
 
         public void Initialize()
         {
-            _regionManager.RegisterViewWithRegion(Constants.RegionNames.RightWindowCommands, () => new Button {Content = "Hello"});
+            RegisterView<CloneRepositoryView, CloneRepositoryViewModel>();
+            // Discover
+            // Init
+        }
+
+        private void RegisterView<TView, TViewModel>()
+            where TView : FrameworkElement
+            where TViewModel : FlyoutViewModelBase
+        {
+            var viewModel = ServiceLocator.Current.GetInstance<TViewModel>();
+
+            _regionManager.RegisterViewWithRegion(Constants.FlyoutControlsRegionName, typeof(TView));
+
+            _regionManager.RegisterViewWithRegion(Constants.RightWindowCommandsRegionName,
+                () => new Button {Command = viewModel.ShowCommand, Content = viewModel.Header});
         }
     }
 }
