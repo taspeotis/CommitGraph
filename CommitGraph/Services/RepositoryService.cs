@@ -24,6 +24,8 @@ namespace CommitGraph.Services
 
         public Task CloneAsync(CloneModel cloneModel, CancellationToken cancellationToken)
         {
+            // await response
+            // write the path into the list of repositories
             return Task.Factory.StartNew(Clone, cloneModel, cancellationToken);
         }
 
@@ -38,6 +40,12 @@ namespace CommitGraph.Services
             };
 
             Repository.Clone(cloneModel.RemoteUrl, cloneModel.WorkingDirectory, cloneOptions);
+        }
+
+        public void Discover(string workingDirectory)
+        {
+            // check return code
+            Repository.Discover(workingDirectory);
         }
 
         private Credentials GetCredentials(

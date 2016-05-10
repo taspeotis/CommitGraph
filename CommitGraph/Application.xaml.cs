@@ -2,9 +2,7 @@
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
 using System.Windows;
-using CommitGraph.Infrastructure;
-using CommitGraph.Properties;
-using HockeyApp;
+using CommitGraph.Attributes;
 using MahApps.Metro.Controls;
 using Microsoft.Practices.ServiceLocation;
 using Prism.Mef;
@@ -19,29 +17,6 @@ namespace CommitGraph
     {
         public Application()
         {
-            Startup += async delegate
-            {
-                if (Settings.Default.DisableTelemetry)
-                    return;
-
-                var hockeyClient = HockeyClient.Current;
-
-                hockeyClient.Configure(Constants.HockeyAppId);
-
-                try
-                {
-                    await hockeyClient.SendCrashesAsync();
-
-                    // It's not clear that "shutdownActions" is ever called...
-                    // https://github.com/bitstadium/HockeySDK-Windows/issues/39
-                    await hockeyClient.CheckForUpdatesAsync(true, () => true);
-                }
-                catch
-                {
-                    // https://github.com/bitstadium/HockeySDK-Windows/issues/9
-                }
-            };
-
             Startup += delegate { new ApplicationBootstrapper().Run(); };
         }
 
@@ -66,6 +41,17 @@ namespace CommitGraph
                     ServiceLocator.Current.GetInstance<FlyoutsControlRegionAdapter>());
 
                 return regionAdapterMappings;
+            }
+
+            protected override void ConfigureServiceLocator()
+            {
+                base.ConfigureServiceLocator();
+
+                var assembly = GetType().Assembly;
+                var customAttributes = assembly.GetCustomAttributes(typeof(EagerInstantiationAttribute), false);
+
+                foreach (EagerInstantiationAttribute eagerInstantiationAttribute in customAttributes)
+                    ServiceLocator.Current.GetInstance(eagerInstantiationAttribute.Type);
             }
 
             protected override DependencyObject CreateShell()

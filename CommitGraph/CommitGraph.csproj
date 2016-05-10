@@ -99,17 +99,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Attributes\EagerInstantiationAttribute.cs" />
     <Compile Include="Infrastructure\AsyncDelegateCommand.cs" />
+    <Compile Include="Infrastructure\Settings.cs" />
     <Compile Include="Interfaces\IExceptionService.cs" />
+    <Compile Include="Interfaces\ITelemetryService.cs" />
+    <Compile Include="Modules\Repository\ViewModels\DiscoverRepositoryViewModel.cs" />
     <Compile Include="Modules\Repository\Views\CloneRepositoryView.xaml.cs">
       <DependentUpon>CloneRepositoryView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>Settings.settings</DependentUpon>
-    </Compile>
     <Compile Include="Services\ExceptionService.cs" />
+    <Compile Include="Services\TelemetryService.cs" />
     <Compile Include="ViewModels\FlyoutViewModelBase.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Page Include="Modules\Repository\Views\CloneRepositoryView.xaml">
@@ -149,10 +149,6 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

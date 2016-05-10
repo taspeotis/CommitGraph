@@ -53,6 +53,9 @@
             <Button>Fetch</Button>
             <Button>Push</Button>
         </DockPanel>
+        <DataGrid Grid.Row="2"
+                  Grid.Column="0"
+                  HeadersVisibility="None" />
     </Grid>
     <controls:MetroWindow.RightWindowCommands>
         <controls:WindowCommands regions:RegionManager.RegionName="{x:Static infrastructure:Constants.RightWindowCommandsRegionName}" />

@@ -6,7 +6,6 @@ using CommitGraph.Infrastructure;
 using CommitGraph.Interfaces;
 using CommitGraph.Models.Repository;
 using CommitGraph.ViewModels;
-using Prism.Commands;
 
 namespace CommitGraph.Modules.Repository.ViewModels
 {
@@ -25,6 +24,14 @@ namespace CommitGraph.Modules.Repository.ViewModels
             CloneCommand = new AsyncDelegateCommand(CloneAsync);
         }
 
+        public string RemoteUrl { get; set; }
+
+        public string WorkingDirectory { get; set; }
+
+        public ICommand BrowseCommand { get; set; }
+
+        public ICommand CloneCommand { get; set; }
+
         private async Task CloneAsync(CancellationToken cancellationToken)
         {
             await _repositoryService.CloneAsync(new CloneModel
@@ -35,13 +42,5 @@ namespace CommitGraph.Modules.Repository.ViewModels
 
             CloseCommand.Execute(null);
         }
-
-        public string RemoteUrl { get; set; }
-
-        public string WorkingDirectory { get; set; }
-
-        public ICommand BrowseCommand { get; set; }
-
-        public ICommand CloneCommand { get; set; }
     }
 }
