@@ -24,7 +24,7 @@ namespace CommitGraph.ViewModels
 
         public string Header { get; }
 
-        public bool IsOpen { get; private set; }
+        public bool IsOpen { get; set; }
 
         public ICommand ShowCommand { get; }
 

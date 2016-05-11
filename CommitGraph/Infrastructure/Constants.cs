@@ -1,4 +1,6 @@
-﻿namespace CommitGraph.Infrastructure
+﻿using System.Security.Cryptography;
+
+namespace CommitGraph.Infrastructure
 {
     public static class Constants
     {

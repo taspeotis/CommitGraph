@@ -51,6 +51,10 @@
       <HintPath>..\packages\Humanizer.1.37.7\lib\portable-win+net40+sl50+wp8+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Humanizer.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="JetBrains.Annotations, Version=10.0.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\packages\JetBrains.Annotations.10.0.0\lib\net20\JetBrains.Annotations.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="LibGit2Sharp, Version=0.22.0.0, Culture=neutral, PublicKeyToken=7cbde695407f0333, processorArchitecture=MSIL">
       <HintPath>..\packages\LibGit2Sharp.0.22.0\lib\net40\LibGit2Sharp.dll</HintPath>
       <Private>True</Private>
@@ -61,6 +65,10 @@
     </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Prism, Version=6.1.0.0, Culture=neutral, PublicKeyToken=91a96d2a154366d8, processorArchitecture=MSIL">
@@ -79,8 +87,13 @@
       <HintPath>..\packages\PropertyChanged.Fody.1.51.0\lib\dotnet\PropertyChanged.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="SpecificationPatternDotNet, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SpecificationPatternDotNet.2.0.0\lib\portable45-net45+win8\SpecificationPatternDotNet.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.2.4.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
       <Private>True</Private>
@@ -100,16 +113,21 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Attributes\EagerInstantiationAttribute.cs" />
+    <Compile Include="Extensions\SerializationInfoExtensions.cs" />
     <Compile Include="Infrastructure\AsyncDelegateCommand.cs" />
     <Compile Include="Infrastructure\Settings.cs" />
+    <Compile Include="Interfaces\ICredentialService.cs" />
     <Compile Include="Interfaces\IExceptionService.cs" />
     <Compile Include="Interfaces\ITelemetryService.cs" />
+    <Compile Include="Entities\Credential.cs" />
     <Compile Include="Modules\Repository\ViewModels\DiscoverRepositoryViewModel.cs" />
     <Compile Include="Modules\Repository\Views\CloneRepositoryView.xaml.cs">
       <DependentUpon>CloneRepositoryView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Services\CredentialService.cs" />
     <Compile Include="Services\ExceptionService.cs" />
     <Compile Include="Services\TelemetryService.cs" />
+    <Compile Include="Specifications\CredentialSpecification.cs" />
     <Compile Include="ViewModels\FlyoutViewModelBase.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Page Include="Modules\Repository\Views\CloneRepositoryView.xaml">

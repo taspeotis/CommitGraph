@@ -65,7 +65,7 @@
             <controls:FlyoutsControl.ItemContainerStyle>
                 <Style TargetType="{x:Type controls:Flyout}">
                     <Setter Property="Header" Value="{Binding Header, Mode=OneWay}" />
-                    <Setter Property="IsOpen" Value="{Binding IsOpen, Mode=OneWay}" />
+                    <Setter Property="IsOpen" Value="{Binding IsOpen}" />
                 </Style>
             </controls:FlyoutsControl.ItemContainerStyle>
         </controls:FlyoutsControl>

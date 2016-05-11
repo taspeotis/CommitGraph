@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.Composition;
+﻿using System;
+using System.ComponentModel.Composition;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,14 +13,14 @@ namespace CommitGraph.Services
     [Export(typeof(IRepositoryService))]
     internal sealed class RepositoryService : IRepositoryService
     {
+        private readonly ICredentialService _credentialService;
         private readonly IDispatcherService _dispatcherService;
-        private readonly IInteractionService _interactionService;
 
         [ImportingConstructor]
-        public RepositoryService(IDispatcherService dispatcherService, IInteractionService interactionService)
+        public RepositoryService(ICredentialService credentialService, IDispatcherService dispatcherService)
         {
+            _credentialService = credentialService;
             _dispatcherService = dispatcherService;
-            _interactionService = interactionService;
         }
 
         public Task CloneAsync(CloneModel cloneModel, CancellationToken cancellationToken)
@@ -52,15 +53,19 @@ namespace CommitGraph.Services
             string remoteUrl, string userName, SupportedCredentialTypes supportedCredentialTypes)
         {
             // ICredentialService(remoteUrl) // it gets the host, and checks for existing creds
+            var uri = new Uri(remoteUrl); // todo? tryPass?
 
             userName = WebUtility.UrlDecode(userName);
             var password = _dispatcherService.Invoke(
-                () => _interactionService.GetNetworkCredentialAsync(userName, CancellationToken.None));
+                () => _credentialService.GetCredentialAsync(uri.Host, userName, CancellationToken.None));
+
+            if (password == null)
+                return null;
 
             return new UsernamePasswordCredentials
             {
-                Password = password.Result.Password,
-                Username = "t@speot.is"
+                Username = password.Result.UserName,
+                Password = password.Result.Password
             };
         }
     }
